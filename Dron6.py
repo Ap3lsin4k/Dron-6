@@ -11,7 +11,7 @@ def name(color):
     if(c-a>=50 or c-b>=50):
         return "sky"
     elif (a>=135 and a<=165 and b>=105 and b<=130 and c<95):
-        return "woter,brown"
+        return "woter"
     elif(max>209 and max-b<=r and max-c<=r):
         return "sky"
     elif(max<=100 and max-b<=r and max-c<=r):
@@ -20,10 +20,14 @@ def name(color):
         return "woter"
     else:
         return "isn't"
-
+def imposition(img1,img2):
+    im1 = img1
+    im2 = img2
+    im1.paste(im2, (j,i), im2) # Последний параметр — альфаканал, используемый для наложения
+    im1.save("img1.png")
 
 def get_main_color(img):
-    colors = img.getcolors(2560) #put a higher value if there are many colors in your image
+    colors = img.getcolors(25600) #put a higher value if there are many colors in your image
     max_occurence, most_present = 0, 0
     try:
         for c in colors:
@@ -32,15 +36,18 @@ def get_main_color(img):
         return most_present
     except TypeError:
         raise Exception("Too many colors in the image")
-
-img = Image.open("Photo.jpg")
+img=Image.open("Photo.jpg")
 imgwidth, imgheight = img.size
 #img.crop((30, 30, w-80, h-40)).save("file.png")
 amount = 1;
-width, length = 15, 10
-
+width, length = 15, 15
+img2 = Image.open("kapli.png")
+img2 = img2.resize((width,length), Image.ANTIALIAS)
+img2.save("kaphotosavepli.png")
+Photosave=Image.open("Photo.jpg")
 for i in range(0,imgheight,length):
     for j in range(0,imgwidth,width):
+        imgmain = Image.open("Photo.jpg")
         if j+width > imgwidth:
             w = imgwidth
         else:
@@ -51,11 +58,14 @@ for i in range(0,imgheight,length):
             h = i+length
         
         #img.crop((j, i, w, h)).save("images/file"+str(amount)+".png")
-        cropimages=img.crop((j, i, w, h))
+        cropimages=imgmain.crop((j, i, w, h))
         color = get_main_color(cropimages)
         imagename=name(color)
-        cropimages.save("images/"+str(amount)+str(imagename)+str(color)+".png")
+        if(imagename=="woter"):
+            imposition(Photosave,img2)
+        #cropimages.save("images/"+str(amount)+str(imagename)+str(color)+".png")
         amount=amount+1
 print(amount)
+Photosave.save("Save.jpg")
        
 
