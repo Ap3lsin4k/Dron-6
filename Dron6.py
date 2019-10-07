@@ -24,7 +24,6 @@ def imposition(img1,img2):
     im1 = img1
     im2 = img2
     im1.paste(im2, (j,i), im2) # Последний параметр — альфаканал, используемый для наложения
-    im1.save("img1.png")
 
 def get_main_color(img):
     colors = img.getcolors(25600) #put a higher value if there are many colors in your image
@@ -40,7 +39,7 @@ img=Image.open("Photo.jpg")
 imgwidth, imgheight = img.size
 #img.crop((30, 30, w-80, h-40)).save("file.png")
 amount = 1;
-width, length = 15, 15
+width, length = 50, 50
 img2 = Image.open("kapli.png")
 img2 = img2.resize((width,length), Image.ANTIALIAS)
 img2.save("kaphotosavepli.png")
